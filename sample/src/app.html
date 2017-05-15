@@ -1,0 +1,32 @@
+<template>
+    <require from="plugins/fasting-troubadour/trim-binding-behavior"></require>
+    <require from="plugins/fasting-troubadour/alphanumeric-input-behavior"></require>
+    <require from="plugins/fasting-troubadour/numeric-input-behavior"></require>
+    <require from="plugins/fasting-troubadour/numeric-name-input-behavior"></require>
+    <require from="plugins/fasting-troubadour/name-input-behavior"></require>
+    <require from="plugins/fasting-troubadour/formatted-number-behavior"></require>
+    <require from="plugins/fasting-troubadour/number-format"></require>
+
+    <div>
+        trim: <input type="text" value.bind="trimmage & trim"/>
+    </div>
+    <div>
+        alphanumeric: <input type="text" value.bind="alphanumerical & alphanumericInput"/>
+    </div>
+    <div>
+        numeric: <input type="text" value.bind="numerical & numericInput"/>
+    </div>
+    <div>
+        numericName: <input type="text" value.bind="numericNamical & numericNameInput"/>
+    </div>
+    <div>
+        name: <input type="text" value.bind="namical & nameInput"/>
+    </div>
+    <div>
+        formatted number: <input type="text" value.bind="dollars & formattedNumber"/>
+    </div>
+    <div>
+        custom formatted number: <input type="text" value.bind="cows & formattedNumber:'0.000'"/>
+        ${cows | numberFormat:'0.0'}
+    </div>
+</template>

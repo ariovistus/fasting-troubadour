@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "aurelia-binding": "github:aurelia/binding#36215e6f516322d06b699ed518a8fb0783276231",
+    "aurelia-dependency-injection": "github:aurelia/dependency-injection#8c237c3d145e225b3988957600453d80f7ec22ab"
+  },
+  "globalDependencies": {
+    "es6-collections": "registry:dt/es6-collections#0.5.1+20160510002910",
+    "find-index": "file:typings_custom\\find-index.d.ts",
+    "numeraljs": "registry:dt/numeraljs#0.0.0+20160316155526"
+  }
+}

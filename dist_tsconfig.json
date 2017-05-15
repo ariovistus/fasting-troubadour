@@ -1,0 +1,26 @@
+
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "removeComments": true,
+        "preserveConstEnums": true,
+        "jsx": "react",
+        "noImplicitAny": false,
+        "sourceMap": true
+    },
+    "files": [
+        "alphanumeric-input-behavior.ts",  
+        "number-format.ts",
+        "binding-context.ts",              
+        "numeric-input-behavior.ts",
+        "formatted-number-behavior.ts",    
+        "numeric-name-input-behavior.ts",
+        "input-behavior-base.ts",          
+        "trim-binding-behavior.ts",
+        "name-input-behavior.ts",
+        "../typings/index.d.ts"
+    ]
+}

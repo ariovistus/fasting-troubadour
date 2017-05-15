@@ -1,0 +1,17 @@
+.idea
+.DS_STORE
+node_modules
+jspm_packages
+coverage
+npm-debug.log
+*.swp
+src/*.js
+src/*.js.map
+src/*.d.ts
+tests/e2e/dest/*
+tests/unit/dest/*
+tests/unit/dist/*
+tests/unit/tests/*
+tests/unit/src/src/*
+sample/src/plugins/
+typings/
