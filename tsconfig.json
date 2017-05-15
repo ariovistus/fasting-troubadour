@@ -18,6 +18,7 @@
         "src/numeric-input-behavior.ts",
         "src/formatted-number-behavior.ts",    
         "src/numeric-name-input-behavior.ts",
+        "src/index.ts",          
         "src/input-behavior-base.ts",          
         "src/trim-binding-behavior.ts",
         "src/name-input-behavior.ts",
