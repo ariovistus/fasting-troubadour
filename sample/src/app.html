@@ -28,5 +28,8 @@
     <div>
         custom formatted number: <input type="text" value.bind="cows & formattedNumber:'0.000'"/>
         ${cows | numberFormat:'0.0'}
+        <br/>
+        <button type="button" click.delegate="setCows()">Set value</button>
+        <button type="button" click.delegate="refreshCows()">Refresh number format</button>
     </div>
 </template>

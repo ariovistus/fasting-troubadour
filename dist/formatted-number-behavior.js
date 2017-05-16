@@ -9,18 +9,30 @@ var __extends = (this && this.__extends) || (function () {
         d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
     };
 })();
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
 Object.defineProperty(exports, "__esModule", { value: true });
+var aurelia_framework_1 = require("aurelia-framework");
+var aurelia_event_aggregator_1 = require("aurelia-event-aggregator");
 var number_format_1 = require("./number-format");
 var input_behavior_base_1 = require("./input-behavior-base");
 var binding_context_1 = require("./binding-context");
 var FormattedNumberBindingBehavior = (function (_super) {
     __extends(FormattedNumberBindingBehavior, _super);
-    function FormattedNumberBindingBehavior() {
+    function FormattedNumberBindingBehavior(eventAggregator) {
         var _this = _super.call(this) || this;
+        _this.eventAggregator = eventAggregator;
         _this.formatter = new number_format_1.NumberFormatValueConverter();
-        _this.formatName = "_" + _this.constructor['name'] + "_format";
-        _this.maxName = "_" + _this.constructor['name'] + "_max";
-        _this.minName = "_" + _this.constructor['name'] + "_min";
+        _this.formatName = _this.makeName("format");
+        _this.maxName = _this.makeName("max");
+        _this.minName = _this.makeName("min");
         return _this;
     }
     FormattedNumberBindingBehavior.prototype.onKeyDown = function (keyEvent, context) {
@@ -85,6 +97,9 @@ var FormattedNumberBindingBehavior = (function (_super) {
         binding[this.maxName] = max == null ? 1000000 : max;
         binding[this.minName] = min == null ? -1000000 : min;
         setTimeout(function () { return _this.formatValue(context); }, 1);
+        this.eventAggregator.subscribe("formatted-number:refresh", function () {
+            _this.formatValue(context);
+        });
     };
     FormattedNumberBindingBehavior.prototype.formatValue = function (context) {
         var format = context.binding[this.formatName];
@@ -115,5 +130,9 @@ var FormattedNumberBindingBehavior = (function (_super) {
     };
     return FormattedNumberBindingBehavior;
 }(input_behavior_base_1.InputBehaviorBase));
+FormattedNumberBindingBehavior = __decorate([
+    aurelia_framework_1.autoinject,
+    __metadata("design:paramtypes", [aurelia_event_aggregator_1.EventAggregator])
+], FormattedNumberBindingBehavior);
 exports.FormattedNumberBindingBehavior = FormattedNumberBindingBehavior;
 //# sourceMappingURL=formatted-number-behavior.js.map

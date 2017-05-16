@@ -1,20 +1,23 @@
+import { autoinject } from "aurelia-framework";
 import { Binding, Scope } from "aurelia-binding";
+import { EventAggregator } from "aurelia-event-aggregator";
 import { NumberFormatValueConverter } from "./number-format";
 import { InputBehaviorBase } from "./input-behavior-base";
 import { BindingContext } from "./binding-context";
 
+@autoinject
 export class FormattedNumberBindingBehavior extends InputBehaviorBase {
     private formatter: NumberFormatValueConverter;
     private formatName: string;
     private maxName: string;
     private minName: string;
 
-    constructor() {
+    constructor(private eventAggregator: EventAggregator) {
         super();
         this.formatter = new NumberFormatValueConverter();
-        this.formatName = `_${this.constructor['name']}_format`;
-        this.maxName = `_${this.constructor['name']}_max`;
-        this.minName = `_${this.constructor['name']}_min`;
+        this.formatName = this.makeName("format");
+        this.maxName = this.makeName("max");
+        this.minName = this.makeName("min");
     }
 
     onKeyDown(keyEvent: KeyboardEvent, context: BindingContext) {
@@ -85,6 +88,10 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
         binding[this.maxName] = max == null ?  1000000 : max;
         binding[this.minName] = min == null ? -1000000 : min;
         setTimeout(() => this.formatValue(context), 1);
+
+        this.eventAggregator.subscribe("formatted-number:refresh", () => {
+            this.formatValue(context);
+        });
     }
 
     private formatValue(context: BindingContext) {

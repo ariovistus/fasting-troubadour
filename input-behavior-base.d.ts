@@ -5,6 +5,7 @@ export declare class InputBehaviorBase {
     blurName: string;
     pasteName: string;
     constructor();
+    protected makeName(nom: string): string;
     onKeyDown(keyEvent: KeyboardEvent, context: BindingContext): void;
     onBlur(blurEvent: Event, context: BindingContext): void;
     onPaste(pasteEvent: Event, context: BindingContext): void;

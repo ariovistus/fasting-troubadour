@@ -7,9 +7,13 @@ export class InputBehaviorBase {
     pasteName: string;
 
     constructor() {
-        this.keyDownName = `_${this.constructor['name']}_keydown`;
-        this.blurName = `_${this.constructor['name']}_blur`;
-        this.pasteName = `_${this.constructor['name']}_paste`;
+        this.keyDownName = this.makeName("keydown");
+        this.blurName = this.makeName("blur");
+        this.pasteName = this.makeName("paste");
+    }
+
+    protected makeName(nom: string): string {
+        return `_${this.constructor['name']}_${nom}`;
     }
 
     onKeyDown(keyEvent: KeyboardEvent, context: BindingContext) {

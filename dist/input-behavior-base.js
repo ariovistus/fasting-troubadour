@@ -3,10 +3,13 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var binding_context_1 = require("./binding-context");
 var InputBehaviorBase = (function () {
     function InputBehaviorBase() {
-        this.keyDownName = "_" + this.constructor['name'] + "_keydown";
-        this.blurName = "_" + this.constructor['name'] + "_blur";
-        this.pasteName = "_" + this.constructor['name'] + "_paste";
+        this.keyDownName = this.makeName("keydown");
+        this.blurName = this.makeName("blur");
+        this.pasteName = this.makeName("paste");
     }
+    InputBehaviorBase.prototype.makeName = function (nom) {
+        return "_" + this.constructor['name'] + "_" + nom;
+    };
     InputBehaviorBase.prototype.onKeyDown = function (keyEvent, context) {
     };
     InputBehaviorBase.prototype.onBlur = function (blurEvent, context) {
