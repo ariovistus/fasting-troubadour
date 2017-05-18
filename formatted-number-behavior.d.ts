@@ -8,11 +8,18 @@ export declare class FormattedNumberBindingBehavior extends InputBehaviorBase {
     private formatName;
     private maxName;
     private minName;
+    private prevCaretStartName;
+    private prevCaretEndName;
+    private prevPasteLength;
+    private prevSelectionContentName;
     constructor(eventAggregator: EventAggregator);
     onKeyDown(keyEvent: KeyboardEvent, context: BindingContext): void;
+    private getDecimalPlaceCount(context);
+    private decimalPlaceOverflowRegex(maxDecimalPlaces);
     private isOutOfRange(val, context);
     onBlur(blurEvent: any, context: BindingContext): void;
     onPaste(pasteEvent: any, context: BindingContext): void;
+    private getPasteText(pasteEvent);
     bind(binding: Binding, scope: Scope, format?: string, min?: number, max?: number): void;
     private formatValue(context);
     private cropValue(context);

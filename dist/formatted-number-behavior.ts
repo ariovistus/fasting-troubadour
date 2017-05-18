@@ -11,6 +11,10 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
     private formatName: string;
     private maxName: string;
     private minName: string;
+    private prevCaretStartName: string;
+    private prevCaretEndName: string;
+    private prevPasteLength: string;
+    private prevSelectionContentName: string;
 
     constructor(private eventAggregator: EventAggregator) {
         super();
@@ -18,15 +22,53 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
         this.formatName = this.makeName("format");
         this.maxName = this.makeName("max");
         this.minName = this.makeName("min");
+        this.prevCaretStartName = this.makeName("prev_caret_start");
+        this.prevCaretEndName = this.makeName("prev_caret_end");
+        this.prevCaretEndName = this.makeName("paste_len");
+        this.prevSelectionContentName = this.makeName("prev_selection");
     }
 
     onKeyDown(keyEvent: KeyboardEvent, context: BindingContext) {
-        if (this.keyDownStandardAllowed(keyEvent)) {
+        let isBackspace = keyEvent.keyCode == 8;
+        let isDelete = keyEvent.keyCode == 46;
+        let isCtrlX = keyEvent.ctrlKey && keyEvent.keyCode == 88;
+        if (!(isBackspace || isDelete || isCtrlX) && this.keyDownStandardAllowed(keyEvent)) {
             return;
         }
+        let inRange = function(start, end) {
+            return keyEvent.keyCode >= start.charCodeAt(0) && keyEvent.keyCode <= end.charCodeAt(0);
+        };
         let value = context.value();
+        let newValue = value;
         let dotIndex = value.indexOf(".");
         let selectionStart = context.binding['target'].selectionStart;
+        let selectionEnd = context.binding['target'].selectionEnd;
+
+        if(keyEvent.ctrlKey && !isCtrlX) {
+            return;
+        }else if (selectionStart !== undefined) {
+            if(isBackspace) {
+                if(selectionStart == selectionEnd) {
+                    newValue = value.substr(0, selectionStart-1) + value.substring(selectionEnd, value.length);
+                }else{
+                    newValue = value.substr(0, selectionStart) + value.substring(selectionEnd, value.length);
+                }
+            }else if(isDelete) {
+                if(selectionStart == selectionEnd) {
+                    newValue = value.substr(0, selectionStart) + value.substring(selectionEnd+1, value.length);
+                }else{
+                    newValue = value.substr(0, selectionStart) + value.substring(selectionEnd, value.length);
+                }
+            }else if(isCtrlX) {
+                if(selectionStart == selectionEnd) {
+                    newValue = value;
+                }else{
+                    newValue = value.substr(0, selectionStart) + value.substring(selectionEnd, value.length);
+                }
+            }else{
+                newValue = value.substr(0, selectionStart) + keyEvent.key + value.substring(selectionEnd, value.length);
+            }
+        }
 
         // Allow . if not already present
         if ((keyEvent.keyCode == 190 && dotIndex === -1)) {
@@ -36,31 +78,43 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
         if ((keyEvent.keyCode == 189 && value.indexOf("-") === -1 && context.cursorAtStart())) {
             return;
         }
-        // Ensure that it is a number and stop the keypress
-        if ((keyEvent.shiftKey || (keyEvent.keyCode < 48 || keyEvent.keyCode > 57)) && (keyEvent.keyCode < 96 || keyEvent.keyCode > 105)) {
-            keyEvent.preventDefault();
+
+        if(!(isBackspace || isDelete || isCtrlX)) {
+            // Ensure that it is a number and stop the keypress
+            if ((keyEvent.shiftKey || !inRange("0", "9"))) {
+                keyEvent.preventDefault();
+            }
         }
         // Prevent too many decimal places
+        let decimalPlaceCount = this.getDecimalPlaceCount(context);
+        let regex = this.decimalPlaceOverflowRegex(decimalPlaceCount);
+        if (dotIndex !== -1 && selectionStart !== undefined && selectionStart > dotIndex && regex.test(newValue)) {
+            keyEvent.preventDefault();
+        }
+
+        // Prevent too large or small a value
+        var parsedNewValue = parseFloat(newValue);
+        if (this.isOutOfRange(newValue, context)) {
+            keyEvent.preventDefault();
+        }
+    }
+
+    private getDecimalPlaceCount(context: BindingContext) {
         let pattern = context.binding[this.formatName];
         let parts = pattern.split(".");
         if(parts.length > 1) {
             let decimalPlaceCount = parts[parts.length-1].length;
-            let regex = new RegExp("\\d*\\.\\d{" + decimalPlaceCount + "}");
-            if (dotIndex !== -1 && selectionStart !== undefined && selectionStart > dotIndex && regex.test(value)) {
-                keyEvent.preventDefault();
-            }
+            return decimalPlaceCount;
         }
-        // Prevent too large or small a value
-        if (selectionStart !== undefined) {
-            var newValue = value.substr(0, selectionStart) + keyEvent.key + value.substring(selectionStart, value.length);
-            var parsedNewValue = parseFloat(newValue);
-            if (this.isOutOfRange(newValue, context)) {
-                keyEvent.preventDefault();
-            }
-        }
+        return 0;
     }
 
-    private isOutOfRange(val: string, context) {
+    private decimalPlaceOverflowRegex(maxDecimalPlaces: number) {
+        let regex = new RegExp("\\d*\\.\\d{" + (maxDecimalPlaces+1) + ",}");
+        return regex;
+    }
+
+    private isOutOfRange(val: string, context: BindingContext) {
         let min = context.binding[this.minName];
         let max = context.binding[this.maxName];
         var parsedNewValue = parseFloat(val);
@@ -72,10 +126,24 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
     }
 
     onPaste(pasteEvent, context: BindingContext) {
+        let selectionStart = context.binding['target'].selectionStart;
+        let selectionEnd = context.binding['target'].selectionEnd;
+
+        context.binding[this.prevCaretStartName] = selectionStart;
+        context.binding[this.prevCaretEndName] = selectionEnd;
+        let oldValue = context.binding['target'].value;
+        context.binding[this.prevSelectionContentName] = oldValue.substring(selectionStart, selectionEnd);
+        let pasteText = this.getPasteText(pasteEvent);
+        context.binding[this.prevPasteLength] = pasteText.length;
         setTimeout(() => {
             this.cropValue(context);
             this.formatValue(context);
         }, 0);
+    }
+
+    private getPasteText(pasteEvent) {
+        let clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipBoardData'] : window['clipboardData'];
+        return clipboardData.getData("Text");
     }
 
     bind(binding: Binding, scope: Scope, format: string = null, min: number = null, max: number = null) {
@@ -102,28 +170,86 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
     }
 
     private cropValue(context: BindingContext) {
-        let rawValue = context.binding['target'].value;
+        let value = context.binding['target'].value;
+        if(value == null) return;
+        let newValue = value;
+        let prevCaretStart = context.binding[this.prevCaretStartName];
+        let prevCaretEnd = context.binding[this.prevCaretEndName];
+        let pastedTextLength = context.binding[this.prevPasteLength];
+        let oldSelection = context.binding[this.prevSelectionContentName];
+        let pre = value.substr(0, prevCaretStart);
+        let oldPasted = value.substr(prevCaretStart, pastedTextLength);
+        let post = value.substr(prevCaretStart + pastedTextLength, value.length);
+        let oldValue = pre + oldSelection + post; 
+
+        let newPasted = oldPasted;
+        newPasted = newPasted.replace(/[^0-9.]/g, "");
+        if(pre.length == 0 && oldPasted.startsWith("-")) {
+            newPasted = "-" + newPasted;
+        }
+        if((pre+post).indexOf(".") != -1) {
+            newPasted = newPasted.replace(/\./g, "");
+        }else {
+            let dotIndex = newPasted.indexOf(".");
+            newPasted = newPasted.substr(0, dotIndex+1) + newPasted.substr(dotIndex+1, newPasted.length).replace(/\./g, "");
+        }
+
+        console.info("prepaste value: ", oldValue);
+        console.info("postpaste value: ", newValue);
         let min = context.binding[this.minName];
         let max = context.binding[this.maxName];
         let format = context.binding[this.formatName];
-
         let maxFormatted = this.formatter.toView(max, format);
         let minFormatted = this.formatter.toView(max, format);
 
         let maxLength = Math.max(maxFormatted.length, minFormatted.length);
 
-        if(rawValue != null && rawValue.length > maxLength) {
-            rawValue = rawValue.substr(0, maxLength);
-        }
-        while(rawValue.length > 0) {
-            if(this.isOutOfRange(rawValue, context)) {
-                rawValue = rawValue.substr(0, rawValue.length-1);
-                continue;
+        let croppedValue = function(preLength, pasteLength, postLength) {
+            return pre.substr(0, preLength) + newPasted.substr(0, pasteLength) + post.substr(0, postLength);
+        };
+        let wayTooLong = function(preLength, pasteLength, postLength) {
+            let tempValue = "";
+            if(oldSelection.length >= newPasted.length) {
+                // length of text decreased after paste, but it's stil too long
+                // (oldValue was invalid?)
+                // so ignore old selection and crop pasted text
+                tempValue = croppedValue(preLength, pasteLength, postLength);
+            } else {
+                // length of text increased after paste
+                tempValue = croppedValue(preLength, pasteLength, postLength);
             }
-            break;
+            return tempValue.length > maxLength;
+        };
+
+        let decimalPlaceCount = this.getDecimalPlaceCount(context);
+        let regex = this.decimalPlaceOverflowRegex(decimalPlaceCount);
+        let tooManyDecimals = function(preLength, pasteLength, postLength) {
+            return regex.test(croppedValue(preLength, pasteLength, postLength));
         }
 
-        context.binding.updateSource(rawValue);
-        context.binding.updateTarget(rawValue);
+        let preLength = pre.length;
+        let pasteLength = newPasted.length;
+        let postLength = post.length;
+        while(
+            preLength + pasteLength + postLength > 0 &&
+            // before parsing number, crop to a known max length that shouldn't overflow
+            (wayTooLong(preLength, pasteLength, postLength) ||
+            this.isOutOfRange(croppedValue(preLength, pasteLength, postLength), context) || 
+            // also make sure we haven't exceeded our allotment of decimal places
+            tooManyDecimals(preLength, pasteLength, postLength))) {
+
+            if(pasteLength > 0) {
+                pasteLength--;
+            }else if(postLength > 0) {
+                postLength--;
+            }else if(preLength > 0) {
+                preLength--;
+            }
+        }
+
+        value = croppedValue(preLength, pasteLength, postLength);
+
+        context.binding.updateSource(value);
+        context.binding.updateTarget(value);
     }
 }
