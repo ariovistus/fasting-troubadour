@@ -5,6 +5,10 @@ export class BindingContext {
     scope: Scope;
 
     value() {
+        if(this.scope.bindingContext == null) {
+            // ??
+            return "";
+        }
         return this.binding.sourceExpression['expression'].evaluate(this.scope, null) || "";
     }
 

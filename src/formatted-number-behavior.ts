@@ -165,8 +165,11 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
     private formatValue(context: BindingContext) {
         let format = context.binding[this.formatName];
         let value = this.formatter.toView(context.value(), format);
-        context.binding.updateSource(value);
-        context.binding.updateTarget(value);
+        if(context.binding.source != null) {
+            //??
+            context.binding.updateSource(value);
+            context.binding.updateTarget(value);
+        }
     }
 
     private cropValue(context: BindingContext) {

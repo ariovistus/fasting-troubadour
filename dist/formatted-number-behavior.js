@@ -168,8 +168,10 @@ var FormattedNumberBindingBehavior = (function (_super) {
     FormattedNumberBindingBehavior.prototype.formatValue = function (context) {
         var format = context.binding[this.formatName];
         var value = this.formatter.toView(context.value(), format);
-        context.binding.updateSource(value);
-        context.binding.updateTarget(value);
+        if (context.binding.source != null) {
+            context.binding.updateSource(value);
+            context.binding.updateTarget(value);
+        }
     };
     FormattedNumberBindingBehavior.prototype.cropValue = function (context) {
         var value = context.binding['target'].value;
