@@ -47,6 +47,7 @@ formats number inputs after you tab away. Controls the minimum and maximum permi
 
 Notes
 - numeraljs is the formatting engine
+- default format is '0.00'
 
 ## Numeric Input
 
