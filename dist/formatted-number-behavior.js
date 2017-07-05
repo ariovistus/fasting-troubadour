@@ -245,11 +245,11 @@ var FormattedNumberBindingBehavior = (function (_super) {
         context.binding.updateSource(value);
         context.binding.updateTarget(value);
     };
+    FormattedNumberBindingBehavior = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [aurelia_event_aggregator_1.EventAggregator])
+    ], FormattedNumberBindingBehavior);
     return FormattedNumberBindingBehavior;
 }(input_behavior_base_1.InputBehaviorBase));
-FormattedNumberBindingBehavior = __decorate([
-    aurelia_framework_1.autoinject,
-    __metadata("design:paramtypes", [aurelia_event_aggregator_1.EventAggregator])
-], FormattedNumberBindingBehavior);
 exports.FormattedNumberBindingBehavior = FormattedNumberBindingBehavior;
 //# sourceMappingURL=formatted-number-behavior.js.map
