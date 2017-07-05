@@ -142,7 +142,7 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
     }
 
     private getPasteText(pasteEvent) {
-        let clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipBoardData'] : window['clipboardData'];
+        let clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipboardData'] : window['clipboardData'];
         return clipboardData.getData("Text");
     }
 

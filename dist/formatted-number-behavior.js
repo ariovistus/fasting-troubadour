@@ -145,7 +145,7 @@ var FormattedNumberBindingBehavior = (function (_super) {
         }, 0);
     };
     FormattedNumberBindingBehavior.prototype.getPasteText = function (pasteEvent) {
-        var clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipBoardData'] : window['clipboardData'];
+        var clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipboardData'] : window['clipboardData'];
         return clipboardData.getData("Text");
     };
     FormattedNumberBindingBehavior.prototype.bind = function (binding, scope, format, min, max) {
