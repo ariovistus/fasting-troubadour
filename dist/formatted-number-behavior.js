@@ -198,8 +198,6 @@ var FormattedNumberBindingBehavior = (function (_super) {
             var dotIndex = newPasted.indexOf(".");
             newPasted = newPasted.substr(0, dotIndex + 1) + newPasted.substr(dotIndex + 1, newPasted.length).replace(/\./g, "");
         }
-        console.info("prepaste value: ", oldValue);
-        console.info("postpaste value: ", newValue);
         var min = context.binding[this.minName];
         var max = context.binding[this.maxName];
         var format = context.binding[this.formatName];

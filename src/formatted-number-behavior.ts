@@ -197,8 +197,6 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
             newPasted = newPasted.substr(0, dotIndex+1) + newPasted.substr(dotIndex+1, newPasted.length).replace(/\./g, "");
         }
 
-        console.info("prepaste value: ", oldValue);
-        console.info("postpaste value: ", newValue);
         let min = context.binding[this.minName];
         let max = context.binding[this.maxName];
         let format = context.binding[this.formatName];
