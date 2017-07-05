@@ -3,7 +3,7 @@
     "aurelia-binding": "github:aurelia/binding#36215e6f516322d06b699ed518a8fb0783276231",
     "aurelia-dependency-injection": "github:aurelia/dependency-injection#8c237c3d145e225b3988957600453d80f7ec22ab",
     "aurelia-event-aggregator": "github:aurelia/event-aggregator#0aefb5726eaa857fa5e5c026f4d8cf55e66ee761",
-    "aurelia-framework": "github:aurelia/framework#f2f1f88ba734bb81c5c1db97557d65fca9c273e1",
+    "aurelia-framework": "github:aurelia/framework#b02ffb8cf83f9451a1a1ae3b93928bda51a32e66",
     "aurelia-loader": "github:aurelia/loader#b4798cb6bcea689abd0227ce26029c253c34bfcb",
     "aurelia-logging": "github:aurelia/logging#7ff8aeb2315eb4946968f014dee6efcf2b669bba",
     "aurelia-metadata": "github:aurelia/metadata#1f4c3e4ea4540b3842ed0e9d987e20a42f02eff4",

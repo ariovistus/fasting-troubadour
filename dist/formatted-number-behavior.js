@@ -145,7 +145,7 @@ var FormattedNumberBindingBehavior = (function (_super) {
         }, 0);
     };
     FormattedNumberBindingBehavior.prototype.getPasteText = function (pasteEvent) {
-        var clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipBoardData'] : window['clipboardData'];
+        var clipboardData = 'clipboardData' in pasteEvent ? pasteEvent['clipboardData'] : window['clipboardData'];
         return clipboardData.getData("Text");
     };
     FormattedNumberBindingBehavior.prototype.bind = function (binding, scope, format, min, max) {
@@ -198,8 +198,6 @@ var FormattedNumberBindingBehavior = (function (_super) {
             var dotIndex = newPasted.indexOf(".");
             newPasted = newPasted.substr(0, dotIndex + 1) + newPasted.substr(dotIndex + 1, newPasted.length).replace(/\./g, "");
         }
-        console.info("prepaste value: ", oldValue);
-        console.info("postpaste value: ", newValue);
         var min = context.binding[this.minName];
         var max = context.binding[this.maxName];
         var format = context.binding[this.formatName];
@@ -245,11 +243,11 @@ var FormattedNumberBindingBehavior = (function (_super) {
         context.binding.updateSource(value);
         context.binding.updateTarget(value);
     };
+    FormattedNumberBindingBehavior = __decorate([
+        aurelia_framework_1.autoinject,
+        __metadata("design:paramtypes", [aurelia_event_aggregator_1.EventAggregator])
+    ], FormattedNumberBindingBehavior);
     return FormattedNumberBindingBehavior;
 }(input_behavior_base_1.InputBehaviorBase));
-FormattedNumberBindingBehavior = __decorate([
-    aurelia_framework_1.autoinject,
-    __metadata("design:paramtypes", [aurelia_event_aggregator_1.EventAggregator])
-], FormattedNumberBindingBehavior);
 exports.FormattedNumberBindingBehavior = FormattedNumberBindingBehavior;
 //# sourceMappingURL=formatted-number-behavior.js.map

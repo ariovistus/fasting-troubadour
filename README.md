@@ -48,6 +48,12 @@ formats number inputs after you tab away. Controls the minimum and maximum permi
 Notes
 - numeraljs is the formatting engine
 - default format is '0.00'
+- you can emit an event to force the displayed value to be formatted
+
+```js
+    this.eventAggregator.publish("formatted-number:refresh");
+```
+
 
 ## Numeric Input
 
