@@ -47,7 +47,7 @@ var FormattedNumberBindingBehavior = (function (_super) {
             return;
         }
         var inRange = function (start, end) {
-            return keyEvent.keyCode >= start.charCodeAt(0) && keyEvent.keyCode <= end.charCodeAt(0);
+            return keyEvent.keyCode >= start && keyEvent.keyCode <= end;
         };
         var value = context.value();
         var newValue = value;
@@ -86,14 +86,17 @@ var FormattedNumberBindingBehavior = (function (_super) {
                 newValue = value.substr(0, selectionStart) + keyEvent.key + value.substring(selectionEnd, value.length);
             }
         }
-        if ((keyEvent.keyCode == 190 && dotIndex === -1)) {
+        var isDot = function (keyCode) { return keyCode == 190 || keyCode == 110; };
+        var isMinus = function (keyCode) { return keyCode == 189 || keyCode == 109; };
+        var isDigit = function () { return inRange(48, 57) || inRange(96, 105); };
+        if ((isDot(keyEvent.keyCode) && dotIndex === -1)) {
             return;
         }
-        if ((keyEvent.keyCode == 189 && value.indexOf("-") === -1 && context.cursorAtStart())) {
+        if ((isMinus(keyEvent.keyCode) && value.indexOf("-") === -1 && context.cursorAtStart())) {
             return;
         }
         if (!(isBackspace || isDelete || isCtrlX)) {
-            if ((keyEvent.shiftKey || !inRange("0", "9"))) {
+            if (keyEvent.shiftKey || !isDigit()) {
                 keyEvent.preventDefault();
             }
         }

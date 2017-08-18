@@ -36,7 +36,7 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
             return;
         }
         let inRange = function(start, end) {
-            return keyEvent.keyCode >= start.charCodeAt(0) && keyEvent.keyCode <= end.charCodeAt(0);
+            return keyEvent.keyCode >= start && keyEvent.keyCode <= end;
         };
         let value = context.value();
         let newValue = value;
@@ -70,18 +70,22 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
             }
         }
 
+        let isDot = (keyCode) => keyCode == 190 || keyCode == 110;
+        let isMinus = (keyCode) => keyCode == 189 || keyCode == 109;
+        let isDigit = () => inRange(48, 57) || inRange(96, 105);
+
         // Allow . if not already present
-        if ((keyEvent.keyCode == 190 && dotIndex === -1)) {
+        if ((isDot(keyEvent.keyCode) && dotIndex === -1)) {
             return;
         }
         // Allow - if not already present and position is right
-        if ((keyEvent.keyCode == 189 && value.indexOf("-") === -1 && context.cursorAtStart())) {
+        if ((isMinus(keyEvent.keyCode) && value.indexOf("-") === -1 && context.cursorAtStart())) {
             return;
         }
 
         if(!(isBackspace || isDelete || isCtrlX)) {
             // Ensure that it is a number and stop the keypress
-            if ((keyEvent.shiftKey || !inRange("0", "9"))) {
+            if (keyEvent.shiftKey || !isDigit()) {
                 keyEvent.preventDefault();
             }
         }

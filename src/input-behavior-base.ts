@@ -26,8 +26,8 @@ export class InputBehaviorBase {
     }
 
     keyDownStandardAllowed(keyEvent: KeyboardEvent) {
-        // Allow: backspace, delete, tab, escape, enter
-        if ([46, 8, 9, 27, 13, 110].findIndex(x => x === keyEvent.keyCode) !== -1) {
+        // Allow: delete, backspace, tab, escape, enter
+        if ([46, 8, 9, 27, 13].findIndex(x => x === keyEvent.keyCode) !== -1) {
             return true;
         }
         // Allow: Ctrl+A

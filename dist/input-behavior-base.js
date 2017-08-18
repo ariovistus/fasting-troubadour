@@ -17,7 +17,7 @@ var InputBehaviorBase = (function () {
     InputBehaviorBase.prototype.onPaste = function (pasteEvent, context) {
     };
     InputBehaviorBase.prototype.keyDownStandardAllowed = function (keyEvent) {
-        if ([46, 8, 9, 27, 13, 110].findIndex(function (x) { return x === keyEvent.keyCode; }) !== -1) {
+        if ([46, 8, 9, 27, 13].findIndex(function (x) { return x === keyEvent.keyCode; }) !== -1) {
             return true;
         }
         if ((keyEvent.keyCode == 65 && keyEvent.ctrlKey === true) ||
