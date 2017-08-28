@@ -22,6 +22,7 @@
         "src/input-behavior-base.ts",          
         "src/trim-binding-behavior.ts",
         "src/name-input-behavior.ts",
+        "src/custom-chars-input-behavior.ts",
         "typings/index.d.ts"
     ]
 }

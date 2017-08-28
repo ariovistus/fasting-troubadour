@@ -8,6 +8,8 @@ import { EventAggregator } from "aurelia-event-aggregator";
             this.eventAggregator = eventAggregator;
 
             this.message = 'Hello World!';
+
+            this.regex = /[#$ ]/;
             this.cows = 98;
         }
 

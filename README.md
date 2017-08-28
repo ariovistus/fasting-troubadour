@@ -98,6 +98,19 @@ constraints input to only above name characters or numeric characters.
 <input type="text" value.bind="zip & numericNameInput"/>
 ```
 
+## Custom Characters Input
+
+constrains input to only the characters matched by the provided regex.
+
+```html
+<require from="fasting-troubadour/custom-chars-input-behavior"></require>
+
+<input type="text" value.bind="zip & customCharsInput:myRegex"/>
+```
+
+Notes
+- regex is applied to each character - e.g. regex="[a-z]" will allow the entire input to be "a", "aa", "aaz", etc.
+
 ## Number Format
 
 A value converter to format numbers that wraps numeraljs. You've probably seen it in every value converter tutorial you've read.

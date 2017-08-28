@@ -6,6 +6,7 @@
     <require from="plugins/fasting-troubadour/name-input-behavior"></require>
     <require from="plugins/fasting-troubadour/formatted-number-behavior"></require>
     <require from="plugins/fasting-troubadour/number-format"></require>
+    <require from="plugins/fasting-troubadour/custom-chars-input-behavior"></require>
 
     <div>
         trim: <input type="text" value.bind="trimmage & trim"/>
@@ -31,5 +32,8 @@
         <br/>
         <button type="button" click.delegate="setCows()">Set value</button>
         <button type="button" click.delegate="refreshCows()">Refresh number format</button>
+    </div>
+    <div>
+        custom characters: <input type="text" value.bind="gibberish & customCharsInput:regex"/>
     </div>
 </template>
