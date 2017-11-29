@@ -1,0 +1,15 @@
+sudo: required
+language: node_js
+node_js:
+- '4'
+services:
+- docker
+script:
+- bash build_npm.sh
+deploy:
+  provider: npm
+  email: ellery-newcomer@utulsa.edu
+  on: 
+    tags: true
+  api_key:
+    secure: LEO5i2Hkj22HP5/D0ym3JWqpXSZ3R635/LsSRSsbIb+La4GI/1JDcmZdVdqfeenK89Jz26PEVuoQv7+CJ97ht9/0F7EXekmvsEO9e2xB0KJd+FCS6ajhAgEV7bsIKQpshGUtevm/pYNMar+N63DMvnkNMO+vfJMYqorMxlTsuDcLPbeyLItDgN3lw7JRONzxvq86HUIU/WRwfwt2xlaAw8iMLY6IcBGHns+hcamBEjLCsTAkBf69w2R4gsFrQarxPSs2PlYOKwFJHxbQI1fnGlO+ixKJXs5CEs4+J81L3cjnC6FaNo/0A42zuD1eLgMlIrVP1X0HSYSuQeCbccnic4eXw9FOPLoX6BrLQVk8gh9jDLjHxDgb6HRMa3TL6mJco6K/Nw2CMc5Mpwo5j6VdYL9KLBYXh+8YuoaOWOFZz+OyTi/xAuTRnDXwwPfZT2BHMGFTNwL6PC9leNnAta+zkoZaae+nWkAA+t9BRIiNHS3zm0j6JQbCx/5unfMBsSVdf/83tSvYcez2F5XY8axaWc2Aqu2ebCQZl4fJ+uanyzXrIAGoDdL/dEhv9DO1442ryYSFbGFck/MBgrf0TTkNuX/zpakIZtaqHfL6iAQjLEm8DF8PbrH5IyimmraH1aREP+NUQpD4BRQrlJaXDm5RqOX8v3EwdErWIfaDjGgv9G8=
