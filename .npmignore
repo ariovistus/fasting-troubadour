@@ -1,6 +1,6 @@
 build_npm.sh
 coverage/
-sample/
+samples/
 typings/
 typings_custom/
 src/
