@@ -1,11 +1,21 @@
+[![npm version](https://badge.fury.io/js/fasting-troubadour.svg)](http://badge.fury.io/js/fasting-troubadour)
+
 Some useful binding behaviors for aurelia.
 
 
 ## Installation
 
-### jspm
+npm install fasting-troubadour
 
-jspm install fasting-troubadour=github:ariovistus/fasting-troubadour
+for requirejs based cli, add to aurelia.json dependencies:
+
+```json
+          {
+              "name": "fasting-troubadour",
+              "path": "../node_modules/fasting-troubadour/dist",
+              "main": "index"
+          }
+```
 
 ## Trim
 
