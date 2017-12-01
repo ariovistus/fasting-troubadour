@@ -14,7 +14,7 @@
   },
   "globalDependencies": {
     "es6-collections": "registry:dt/es6-collections#0.5.1+20160510002910",
-    "find-index": "file:typings_custom\\find-index.d.ts",
+    "find-index": "file:typings_custom/find-index.d.ts",
     "numeraljs": "registry:dt/numeraljs#0.0.0+20160316155526"
   }
 }

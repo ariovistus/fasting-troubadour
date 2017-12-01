@@ -11,7 +11,6 @@
     "aurelia-animator-css": "^1.0.2",
     "aurelia-bootstrapper": "^2.1.1",
     "bluebird": "^3.4.1",
-    "fasting-troubadour": "file:../fasting-troubadour-0.1.5.tgz",
     "numeral": "^2.0.6",
     "requirejs": "^2.3.2",
     "text": "github:requirejs/text#latest"
