@@ -17,6 +17,15 @@ for requirejs based cli, add to aurelia.json dependencies:
           }
 ```
 
+you can also register it as a plugin in main.ts:
+
+```
+      aurelia.use
+          .plugin("fasting-troubadour")
+```
+
+this is optional, it will just register all of the binding behaviors as global resources
+
 ## Trim
 
 trims leading and trailing whitespace

@@ -25,7 +25,9 @@ export function configure(aurelia: Aurelia) {
   }
 
   if (environment.testing) {
-    aurelia.use.plugin(PLATFORM.moduleName('aurelia-testing'));
+      aurelia.use
+          .plugin(PLATFORM.moduleName('aurelia-testing'))
+          .plugin(PLATFORM.moduleName('fasting-troubadour'));
   }
 
   aurelia.start().then(() => aurelia.setRoot(PLATFORM.moduleName('app')));
