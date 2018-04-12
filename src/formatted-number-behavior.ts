@@ -157,8 +157,8 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
         context.scope = scope;
         
         binding[this.formatName] = format || "0.00";
-        binding[this.maxName] = max == null ?  1000000 : max;
-        binding[this.minName] = min == null ? -1000000 : min;
+        binding[this.maxName] = max == null ?  10000000000000000 : max;
+        binding[this.minName] = min == null ? -10000000000000000 : min;
         setTimeout(() => this.formatValue(context), 1);
 
         this.eventAggregator.subscribe("formatted-number:refresh", () => {
@@ -205,7 +205,7 @@ export class FormattedNumberBindingBehavior extends InputBehaviorBase {
         let max = context.binding[this.maxName];
         let format = context.binding[this.formatName];
         let maxFormatted = this.formatter.toView(max, format);
-        let minFormatted = this.formatter.toView(max, format);
+        let minFormatted = this.formatter.toView(min, format);
 
         let maxLength = Math.max(maxFormatted.length, minFormatted.length);
 
