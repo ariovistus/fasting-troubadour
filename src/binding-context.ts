@@ -9,7 +9,12 @@ export class BindingContext {
             // ??
             return "";
         }
-        return this.binding.sourceExpression['expression'].evaluate(this.scope, null) || "";
+        let _value = this.binding.sourceExpression['expression'].evaluate(this.scope, null);
+        if(_value == null) {
+            return "";
+        }
+
+        return _value;
     }
 
     cursorAtStart() {
