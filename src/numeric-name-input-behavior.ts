@@ -15,12 +15,13 @@ export class NumericNameInputBindingBehavior extends InputBehaviorBase {
         }
 
         // if it is not alpha, -, ', space, or numeric, stop the keypress
-        if (!this.isValidCharacter(keyEvent.key)) {
+        if (!this.isValidCharacter(keyEvent)) {
             keyEvent.preventDefault();
         }
     }
 
-    isValidCharacter(c) {
+    isValidCharacter(keyEvent) {
+        let c = this.getCharacter(keyEvent);
         return (/[a-zA-Z\-' 0-9]/.test(c));
     }
 }
