@@ -21,7 +21,7 @@ export class CustomCharsInputBindingBehavior extends InputBehaviorBase {
             return;
         }
         // if it does not match per regex, stop the keypress
-        if (!this.isValidCharacter(context, keyEvent.key)) {
+        if (!this.isValidCharacter(context, this.getCharacter(keyEvent))) {
             keyEvent.preventDefault();
         }
     }

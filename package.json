@@ -1,6 +1,6 @@
 {
   "name": "fasting-troubadour",
-  "version": "0.2.1",
+  "version": "0.2.2",
   "description": "some aurelia behaviors",
   "main": "dist/index.js",
   "repository": {

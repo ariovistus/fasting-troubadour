@@ -14,13 +14,12 @@ export class AlphanumericInputBindingBehavior extends InputBehaviorBase {
             return;
         }
         // if it is not alpha, or numeric, stop the keypress
-        if (!this.isValidCharacter(keyEvent)) {
+        if (!this.isValidCharacter(this.getCharacter(keyEvent))) {
             keyEvent.preventDefault();
         }
     }
 
-    isValidCharacter(keyEvent) {
-        let c = this.getCharacter(keyEvent);
+    isValidCharacter(c) {
         return (/[a-zA-Z0-9]/.test(c));
     }
 }
