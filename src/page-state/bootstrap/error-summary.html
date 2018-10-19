@@ -1,0 +1,11 @@
+<template>
+    <div class='alert alert-danger' show.bind='errorLoader.hasErrorMessage || errorLoader.hasValidationErrors'>
+        <h4 show.bind="errorLoader.hasErrorMessage"> ${errorLoader.errorMessage} </h4>
+        <ul show.bind="errorLoader.hasValidationErrors">
+            <li repeat.for="err of errorLoader.errors">
+                ${err}
+            </li>
+        </ul>
+    </div>
+</template>
+

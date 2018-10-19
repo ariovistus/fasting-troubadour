@@ -17,5 +17,11 @@ export function configure(config: FrameworkConfiguration) {
     config.globalResources(PLATFORM.moduleName("./trim-binding-behavior"));
     config.globalResources(PLATFORM.moduleName("./custom-chars-input-behavior"));
     config.globalResources(PLATFORM.moduleName("./number-format"));
+
+    aurelia.container.get(Config)
+        .configureNamespace('ariovistus/fasting-troubadour', {
+            location: "./{{framework}}/{{view}}.html",
+        });
+
 }
 

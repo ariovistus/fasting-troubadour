@@ -1,0 +1,9 @@
+<template>
+    <require from="fasting-troubadour/page-state/error-icon"></require>
+    <require from="fasting-troubadour/page-state/wheel-of-patience"></require>
+    <require from="fasting-troubadour/page-state/success-icon"></require>
+
+    <wheel-of-patience show.bind="waitState.waiting"></wheel-of-patience>
+    <error-icon show.bind="waitState.failed"></error-icon>
+    <success-icon shown.bind="waitState.success"></success-icon>
+</template>
